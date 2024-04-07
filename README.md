@@ -1,0 +1,1 @@
+NOTES of Javascript
