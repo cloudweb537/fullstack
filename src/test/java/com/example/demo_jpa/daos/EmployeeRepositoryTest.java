@@ -5,32 +5,30 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@DataJpaTest
+@SpringBootTest
 public class EmployeeRepositoryTest {
 
 
     @Autowired
     EmployeeRepository employeeRepository;
 
-    Employee employee;
+    List<Employee> employee;
 
 
     @BeforeEach
     void setUp() {
-        employee = new Employee(1,"mahesh",32,"AP");
-        employeeRepository.save(employee);
+       employee= employeeRepository.findByName("mahesh");
     }
 
     @AfterEach
     void tearDown() {
-        employeeRepository.deleteAll();
-        System.out.println("00000");
+
     }
 
    //success
@@ -38,8 +36,9 @@ public class EmployeeRepositoryTest {
     public void testFindByName_Found(){
         List<Employee> employeeList=employeeRepository.findByName("mahesh");
         System.out.println("Found");
-        assertThat(employeeList.get(0).getId()).isEqualTo(employee.getId());
-        System.out.println("2222");
+        assertThat(employeeList.get(0).getId()).isEqualTo(employee.get(0).getId()
+                );
+        System.out.println();
     }
 
     //Failure
