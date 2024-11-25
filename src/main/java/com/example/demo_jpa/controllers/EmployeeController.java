@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class EmployeeController {
@@ -36,13 +33,22 @@ public class EmployeeController {
         return GetEmployeesResponse.builder().employees(employeeService.getEmployee()).build();
     }
 
-    @GetMapping("/employee/{id}")
+    @GetMapping("/employee/id/{id}")
     public GetEmployeesResponse getEmployee(@PathVariable("id") Integer id) {
         Optional<Employee> employee = employeeService.getById(id);
         List<Employee> employeeList = employee.map(Arrays::asList).orElseGet(ArrayList::new);
         return GetEmployeesResponse.
                 builder()
                 .employees(employeeList)
+                .build();
+    }
+
+    @GetMapping("/employee/name/{name}")
+    public GetEmployeesResponse getEmployeeByName(@PathVariable("name") String name) {
+        List<Employee> employee = employeeService.getByName(name);
+        return GetEmployeesResponse.
+                builder()
+                .employees(employee)
                 .build();
     }
 
